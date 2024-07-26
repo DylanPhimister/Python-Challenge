@@ -1,0 +1,50 @@
+import os
+import csv
+
+totalmonths = 0
+total = 0
+change = []
+profitloss=[]
+month= []
+
+bank_csv = os.path.join('Resources','budget_data.csv')
+with open(bank_csv) as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter = ",")
+    csv_header = next(csv_reader)
+    for csvrow in csv_reader:
+        totalmonths+=1
+        total+=int(csvrow[1])
+        month.append(csvrow[0])
+        profitloss.append(int(csvrow[1])) 
+        change.append(profitloss[totalmonths-1]-profitloss[totalmonths-2])
+    totalchange = sum(change)
+    averagechange = round(totalchange/(len(change)-1), 2)
+    inc_profit = max(change)
+    grt_increase = change.index(inc_profit)
+    dec_profit = min(change)
+    grt_decrease = change.index(dec_profit)
+
+
+print("Financial Analysis")
+print("----------------------------")
+print(f"Total Months: {totalmonths}")
+print(f"Total: ${total}")
+print(f"Average Change: ${averagechange}")
+print(f"Greatest Increase in Profits: {month[grt_increase]} (${inc_profit})")
+print(f"Greatest Decrease in Profits: {month[grt_decrease]} (${ dec_profit})")
+
+
+output_path = "output.txt"
+
+file =  open(output_path, 'w')
+
+file.write("Financial Analysis")
+file.write("----------------------------")
+file.write(f"Total Months: {totalmonths}")
+file.write(f"Total: ${total}")
+file.write(f"Average Change: ${averagechange}")
+file.write(f"Greatest Increase in Profits: {month[grt_increase]} (${inc_profit})")
+file.write(f"Dreatest Decrease in Profits: {month[grt_decrease]} (${ dec_profit})")
+
+file.close()
+
