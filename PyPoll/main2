@@ -1,1 +1,62 @@
+import os
+import csv
+
+
+total_votes = {}
+ballot = []
+
+Stockham = 0
+Doane = 0
+Degette = 0
+
+election_csv = os.path.join('Resources','election_data.csv')
+with open(election_csv) as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter = ",")
+    csv_header = next(csv_reader)
+    for row in csv_reader:
+        ballot.append(row[1])
+        votes = len(ballot)
+        if row[2] == "Charles Casper Stockham":
+            Stockham += 1
+        elif row[2] == "Raymon Anthony Doane":
+            Doane += 1
+        elif row[2] == "Diana DeGette":
+            Degette += 1
+
+Charles = round((Stockham / votes) * 100, 3)
+Raymon = round((Doane / votes) * 100, 3)
+Diana = round((Degette / votes) * 100, 3)
+
+vote_dict = {"Charles Casper Stockham": Stockham, "Raymon Anthony Doane": Doane, "Diana DeGette": Degette}
+
+winner = max(vote_dict, key=vote_dict.get)
+
+print("Election Results")
+print("----------------------------------------")
+print(f"Total Votes: {votes}")
+print("----------------------------------------")
+print(f"Charles Casper Stockham: {Charles}% ({Stockham})")
+print(f"Raymon Anthony Doane: {Raymon}% ({Doane})")
+print(f"Diana DeGette: {Diana}% ({Degette})")
+print("----------------------------------------")
+print(f"Winner: {winner}")
+print("----------------------------------------")
+
+
+output_path = "output2.txt"
+
+file = open(output_path, "w")
+
+file.write("Election Results")
+file.write("----------------------------------------")
+file.write(f"Total Votes: {votes}")
+file.write("----------------------------------------")
+file.write(f"Charles Casper Stockham: {Charles}% ({Stockham})")
+file.write(f"Raymon Anthony Doane: {Raymon}% ({Doane})")
+file.write(f"Diana DeGette: {Diana}% ({Degette})")
+file.write("----------------------------------------")
+file.write(f"Winner: {winner}")
+file.write("----------------------------------------")
+
+file.close()
 
